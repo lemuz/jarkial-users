@@ -1,0 +1,62 @@
+### login
+
+POST http://localhost:8080/com-jarkial-api-login/security/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "ALEMUS",
+    "password": "20240227MYPWD"
+}
+
+### findById
+
+GET http://localhost:8081/com-jarkial-api-users/catalogs/find/1 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZWEwZTk0YS1mNDRjLTRmZDAtYTFhNy0xNjc2ZDU0MTM0MTgiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDY0MjAzLCJleHAiOjE3MDkwNjYwMDN9.FJvEL8TqzfZhO9wW1LRe2pSy9bF7hw8LpQ9Pr6b2p-xOEcEtulI-ChxeOqcK7Pn35bqHILurARRqRYUz1o6Bww
+
+### listByPadre
+
+GET http://localhost:8081/com-jarkial-api-users/catalogs/search/?idPadre=3 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZWEwZTk0YS1mNDRjLTRmZDAtYTFhNy0xNjc2ZDU0MTM0MTgiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDY0MjAzLCJleHAiOjE3MDkwNjYwMDN9.FJvEL8TqzfZhO9wW1LRe2pSy9bF7hw8LpQ9Pr6b2p-xOEcEtulI-ChxeOqcK7Pn35bqHILurARRqRYUz1o6Bww
+
+### modify
+
+PUT http://localhost:8081/com-jarkial-api-users/catalogs/modify/6 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhNThmNjNmZC0xNjQ0LTRlODEtODAzZC1jMjgyYjljYTFhZmIiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDYyMDg2LCJleHAiOjE3MDkwNjM4ODZ9.l8Zexet57nZXx103bf944pg-HvzVsr6amcIjfwqfjJ_m_Tz095zVgtH4MRyfE7KmZICkCxqNd97hjhUhAr55hA
+content-type: application/json
+
+{
+    "ctgCatalogoId": 6,
+    "ctgCatalogoActivo": "1",
+    "ctgCatalogoDescripcion": null,
+    "ctgCatalogoNombre": "ROLE_ADMINISTRADOR_CATALOGOS",
+    "ctgCatalogoPadre": 3,
+    "ctgCatalogoSujetoOperacion": "1",
+    "ctgCatalogoHomologacion": null,
+    "ctgCatalogoPrioridad": 1,
+    "ctgCatalogoAuxiliar1": null
+}
+
+### create
+
+POST http://localhost:8081/com-jarkial-api-users/catalogs/new/ HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhNThmNjNmZC0xNjQ0LTRlODEtODAzZC1jMjgyYjljYTFhZmIiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDYyMDg2LCJleHAiOjE3MDkwNjM4ODZ9.l8Zexet57nZXx103bf944pg-HvzVsr6amcIjfwqfjJ_m_Tz095zVgtH4MRyfE7KmZICkCxqNd97hjhUhAr55hA
+content-type: application/json
+
+{
+    "ctgCatalogoId": 0,
+    "ctgCatalogoActivo": "1",
+    "ctgCatalogoDescripcion": null,
+    "ctgCatalogoNombre": "ROLE_ADMINISTRADOR_USUARIOS",
+    "ctgCatalogoPadre": 3,
+    "ctgCatalogoSujetoOperacion": "1",
+    "ctgCatalogoHomologacion": null,
+    "ctgCatalogoPrioridad": 1,
+    "ctgCatalogoAuxiliar1": null
+}
+
+### delete
+
+DELETE http://localhost:8081/com-jarkial-api-users/catalogs/erase/?id=0 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhNThmNjNmZC0xNjQ0LTRlODEtODAzZC1jMjgyYjljYTFhZmIiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDYyMDg2LCJleHAiOjE3MDkwNjM4ODZ9.l8Zexet57nZXx103bf944pg-HvzVsr6amcIjfwqfjJ_m_Tz095zVgtH4MRyfE7KmZICkCxqNd97hjhUhAr55hA
+
+###

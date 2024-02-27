@@ -1,0 +1,16 @@
+GET http://localhost:8081/com-jarkial-api-users/users/list HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ODE5MDkxYy1kZTYxLTRjM2MtOTBmOS1jODFlMjkwOTk5OWQiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDU4MDg3LCJleHAiOjE3MDkwNTk4ODd9.D3KRIWkXEzxa_ZKyHbsKAocPmUrQ_PQEZy-6zXIVQvXuMoLvOO9g-_Ztwl_ZUO5Pr5pdsloqry6WhWz-kqLs1w
+
+###
+
+GET http://localhost:8081/com-jarkial-api-users/actuator/health/ HTTP/1.1
+
+###
+
+POST http://localhost:8080/com-jarkial-api-login/security/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "ALEMUS",
+    "password": "20240227MYPWD"
+}
