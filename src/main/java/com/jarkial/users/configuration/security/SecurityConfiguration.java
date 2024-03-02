@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.jarkial.users.configuration.filter.JwtAuthFilter;
-import com.jarkial.users.configuration.utils.MyUtils;
 import com.jarkial.users.configuration.utils.MyUtilsConstant;
 import com.jarkial.users.model.entity.ctg.CtgCatalogo;
 import com.jarkial.users.services.ctg.CtgCatalogoService;
@@ -107,9 +105,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
             .and().addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers("/users/list").hasAnyAuthority(allRoles.toArray(new String[allRoles.size()]))
-            .antMatchers("/users/create").hasAnyAuthority(MyUtilsConstant.ROLE_ADMIN)
-            .antMatchers("/catalogs/find/**").hasAnyAuthority(allRoles.toArray(new String[allRoles.size()]))
+            .antMatchers("/**/list").hasAnyAuthority(allRoles.toArray(new String[allRoles.size()]))
+            .antMatchers("/**/create").hasAnyAuthority(MyUtilsConstant.ROLE_ADMIN)
+            .antMatchers("/**/find/**").hasAnyAuthority(allRoles.toArray(new String[allRoles.size()]))
             .antMatchers("/catalogs/search/").hasAnyAuthority(MyUtilsConstant.ROLE_ADMIN)
             /*
             .antMatchers("/resources/**").permitAll()

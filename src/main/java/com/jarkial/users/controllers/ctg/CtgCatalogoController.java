@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,6 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     @Override
     @GetMapping("/find/{id}")
     public ResponseEntity<?> show(@PathVariable("id") Long entityId) throws Exception{
-        // TODO Auto-generated method stub
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findById(entityId), HttpStatus.OK,
                 "00000");
@@ -42,9 +42,9 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     }
 
     @GetMapping("/search/")
-    public ResponseEntity<?> listByPadre(@RequestParam("idPadre") Long idPadre) throws Exception {
+    public ResponseEntity<?> listByPadre(@RequestParam(name="ctgCatNombre", defaultValue = StringUtils.EMPTY) String ctgCatNombre, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findAllByCtgCatalogoPadre(idPadre),
+        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findAllByCtgCatNombreAndCtgCatalogoPadre(ctgCatNombre, idPadre),
                 HttpStatus.OK, "00000");
         return response;
     }
@@ -52,7 +52,6 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     @Override
     @PostMapping("/new/")
     public ResponseEntity<?> create(@RequestBody @NotBlank @Valid CtgCatalogoModel model, HttpServletRequest request) throws Exception{
-        // TODO Auto-generated method stub
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.update(0L, model), HttpStatus.OK,
                 "00000");
@@ -62,7 +61,6 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     @Override
     @PutMapping("/modify/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long entityId, @RequestBody @NotBlank @Valid CtgCatalogoModel model, HttpServletRequest request) throws Exception{
-        // TODO Auto-generated method stub
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.update(entityId, model), HttpStatus.OK,
                 "00000");
@@ -72,7 +70,6 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     @Override
     @DeleteMapping("/erase/")
     public ResponseEntity<?> delete(@RequestParam("id") Long entityId, HttpServletRequest request) throws Exception{
-        // TODO Auto-generated method stub
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.deleteById(entityId), HttpStatus.OK,
                 "00000");

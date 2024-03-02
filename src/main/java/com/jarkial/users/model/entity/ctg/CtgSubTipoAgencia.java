@@ -29,4 +29,10 @@ public class CtgSubTipoAgencia {
     @JoinColumn(name = "ctg_tagn_id", nullable= false)
     @Getter @Setter
     private CtgTipoAgencia ctgTipoAgencia;
+
+    public CtgSubTipoAgencia(){}
+
+    public CtgSubTipoAgencia(Long id){
+        this.ctgSubTipoAgenciaId = id;
+    }
 }

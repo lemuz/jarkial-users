@@ -2,6 +2,7 @@ package com.jarkial.users.webservices.ctg;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,22 +26,25 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
     CtgCatalogoService ctgCatalogoService;
 
     @Override
-    public List<CtgCatalogoModel> findAllByCtgCatalogoPadre(Long ctgCatalogoPadreId) throws MyServiceException {
+    public List<CtgCatalogoModel> findAllByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre, Long ctgCatalogoPadreId) throws MyServiceException {
         logger.info("[CtgCatalogoServiceWebImpl](findAllByCtgCatalogoPadre)");
         List<CtgCatalogo> findAll = new ArrayList<>();
         try {
-            findAll = ctgCatalogoService.findAllByCtgCatalogoPadreId(ctgCatalogoPadreId);
+            if(StringUtils.isNotBlank(ctgCatalogoNombre))
+                findAll.add(ctgCatalogoService.findByCtgCatalogoNombreAndCtgCatalogoPadreId(ctgCatalogoNombre, ctgCatalogoPadreId));
+            else
+                findAll = ctgCatalogoService.findAllByCtgCatalogoPadreId(ctgCatalogoPadreId);
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyServiceException("00100", MyUtils.getStackTrace(e));
         }
         List<CtgCatalogoModel> lista = new ArrayList<>();
-        findAll.forEach(s -> {
+        findAll.stream().filter(catalogo -> catalogo!=null).forEach(s -> {
             CtgCatalogoModel model = new CtgCatalogoModel();
             BeanUtils.copyProperties(s, model);
             model.setCtgCatalogoPadre(
                     s.getCtgCatalogoPadre() != null ? s.getCtgCatalogoPadre().getCtgCatalogoId() : null);
-                    lista.add(model);
+            lista.add(model);
         });
         return lista;
     }
@@ -82,7 +86,7 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
         catalogoModel.setCtgCatalogoPadre(
                 catalogoEntity.getCtgCatalogoPadre() != null ? catalogoEntity.getCtgCatalogoPadre().getCtgCatalogoId()
                         : null);
-        return catalogoModel.getCtgCatalogoId()!=null;
+        return catalogoModel.getCtgCatalogoId() != null;
     }
 
     @Override

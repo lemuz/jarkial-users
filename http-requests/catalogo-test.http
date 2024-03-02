@@ -5,18 +5,18 @@ content-type: application/json
 
 {
     "username": "ALEMUS",
-    "password": "20240227MYPWD"
+    "password": "20240301MYPWD"
 }
 
 ### findById
 
 GET http://localhost:8081/com-jarkial-api-users/catalogs/find/1 HTTP/1.1
-token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZWEwZTk0YS1mNDRjLTRmZDAtYTFhNy0xNjc2ZDU0MTM0MTgiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDY0MjAzLCJleHAiOjE3MDkwNjYwMDN9.FJvEL8TqzfZhO9wW1LRe2pSy9bF7hw8LpQ9Pr6b2p-xOEcEtulI-ChxeOqcK7Pn35bqHILurARRqRYUz1o6Bww
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiZDk3MDkzOC0zMmExLTRjOTMtOTQ1Yi01NTU0NjcyMGE3YTMiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MzUzNjgzLCJleHAiOjE3MDkzNTU0ODN9.Bc8HG857Y7EL199cOB8J8pXQmDJ9n0x0yHY62QnkkIuFblUBpYbJmbgp6FX8pjKxpBn4pK28UJVoXCxUqqzblw
 
 ### listByPadre
 
-GET http://localhost:8081/com-jarkial-api-users/catalogs/search/?idPadre=3 HTTP/1.1
-token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZWEwZTk0YS1mNDRjLTRmZDAtYTFhNy0xNjc2ZDU0MTM0MTgiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDY0MjAzLCJleHAiOjE3MDkwNjYwMDN9.FJvEL8TqzfZhO9wW1LRe2pSy9bF7hw8LpQ9Pr6b2p-xOEcEtulI-ChxeOqcK7Pn35bqHILurARRqRYUz1o6Bww
+GET http://localhost:8081/com-jarkial-api-users/catalogs/search/?idPadre=3&ctgCatNombre=p HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjNzliYTM2ZS0zNWU0LTQ5MTgtOTkyZi03YWM0YjMxNDJmMjkiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MzU1NTExLCJleHAiOjE3MDkzNTczMTF9.eGAWeTjZG24HaseLqFTrFT3d0DJoukz66DImqCjSbfwT2_g2qH8L3GXILFpKDz6DRSAoisC71ZjSesXP3TFJww
 
 ### modify
 
