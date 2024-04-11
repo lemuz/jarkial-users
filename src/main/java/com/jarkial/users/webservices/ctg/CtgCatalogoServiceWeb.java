@@ -10,9 +10,9 @@ import com.jarkial.users.webservices.AbstractCrudServiceWeb;
 
 public interface CtgCatalogoServiceWeb extends AbstractCrudServiceWeb<CtgCatalogoModel, Long>{
 
-    CtgCatalogoModel findByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre,Long idPadre) throws MyServiceException;
+    List<CtgCatalogoModel> findByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre,Long idPadre) throws MyServiceException;
 
-    List<CtgCatalogoModel> findAllByCtgCatalogoPadreAsList(Long idPadre) throws MyServiceException;
+    // List<CtgCatalogoModel> findAllByCtgCatalogoPadreAsList(Long idPadre) throws MyServiceException;
 
     Page<CtgCatalogoModel> findAllByCtgCatalogoPadreAsPage(Long idPadre, int page, String orderByProperty, int itemsPerPage) throws MyServiceException;
 

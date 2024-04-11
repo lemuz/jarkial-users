@@ -26,18 +26,25 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
     CtgCatalogoService service;
 
     @Override
-    public CtgCatalogoModel findByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre,
+    public List<CtgCatalogoModel> findByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre,
             Long ctgCatalogoPadreId) throws MyServiceException {
         long start = MyUtils.iniciaMetodo();
-        CtgCatalogo entity = new CtgCatalogo();
+        List<CtgCatalogo> listEntity = new ArrayList<>();
+        List<CtgCatalogoModel> listmodel = new ArrayList<>();
         try {
-                entity = service.findByCtgCatalogoNombreAndCtgCatalogoPadreId(ctgCatalogoNombre, ctgCatalogoPadreId);
+            if(StringUtils.isNotBlank(ctgCatalogoNombre))
+                listEntity.add(service.findByCtgCatalogoNombreAndCtgCatalogoPadreId(ctgCatalogoNombre, ctgCatalogoPadreId));
+            else
+                listEntity = service.findAllByCtgCatalogoPadreIdAsList(ctgCatalogoPadreId);
         } catch (Exception e) {
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
-        CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
+        listEntity.stream().filter(catalogo -> catalogo != null).forEach(entity -> {
+            CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
+            listmodel.add(model);
+        });
         MyUtils.finMetodo(start);
-        return model;
+        return listmodel;
     }
 
     @Override
@@ -82,24 +89,6 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
         }
         MyUtils.finMetodo(start);
         return respuesta;
-    }
-
-    @Override
-    public List<CtgCatalogoModel> findAllByCtgCatalogoPadreAsList(Long idPadre) throws MyServiceException {
-        long start = MyUtils.iniciaMetodo();
-        List<CtgCatalogo> findAll = new ArrayList<>();
-        try {
-            findAll = service.findAllByCtgCatalogoPadreIdAsList(idPadre);
-        } catch (Exception e) {
-            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
-        }
-        List<CtgCatalogoModel> lista = new ArrayList<>();
-        findAll.stream().filter(catalogo -> catalogo != null).forEach(entity -> {
-            CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
-            lista.add(model);
-        });
-        MyUtils.finMetodo(start);
-        return lista;
     }
 
     @Override

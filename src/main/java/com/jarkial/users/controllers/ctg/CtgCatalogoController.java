@@ -42,9 +42,17 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     }
 
     @GetMapping("/search/")
-    public ResponseEntity<?> listByPadre(@RequestParam(name="ctgCatNombre", defaultValue = StringUtils.EMPTY) String ctgCatNombre, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
+    public ResponseEntity<?> findAsList(@RequestParam(name="ctgCatNombre", defaultValue = StringUtils.EMPTY) String ctgCatNombre, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findAllByCtgCatNombreAndCtgCatalogoPadre(ctgCatNombre, idPadre),
+        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findByCtgCatNombreAndCtgCatalogoPadre(ctgCatNombre, idPadre),
+                HttpStatus.OK, "00000");
+        return response;
+    }
+
+    @GetMapping("/search/page/")
+    public ResponseEntity<?> findAsPage(@RequestParam(name="page", defaultValue = "0") Integer page, @RequestParam(name="property", defaultValue = "ctgCatNombre") String property, @RequestParam(name="itemsPerPage", defaultValue = "10") Integer itemsPerPage, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
+        ResponseEntity<?> response;
+        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findAllByCtgCatalogoPadreAsPage(idPadre, page, property, itemsPerPage),
                 HttpStatus.OK, "00000");
         return response;
     }
