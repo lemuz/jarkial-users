@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jarkial.users.model.entity.gst.GstLog;
 import com.jarkial.users.model.entity.sgd.SgdUsuario;
 import com.jarkial.users.model.entity.sgd.SgdUsuarioPerfil;
 import com.jarkial.users.repositories.sgd.SgdUsuarioPerfilRepository;
@@ -61,8 +60,13 @@ public class SgdUsuarioPerfilServiceImpl extends AbstractBaseServiceImpl impleme
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<SgdUsuarioPerfil> findAllBySgdUsuario(SgdUsuario sgdUsuario) throws Exception {
-        return repository.findAll();
+    public List<SgdUsuarioPerfil> findAllBySgdUsuarioAsList(Long idPadre) throws Exception {
+        return repository.findAllBySgdUsuario_SgdUsuarioId(idPadre);
+    }
+
+    @Override
+    public Page<SgdUsuarioPerfil> findAllBySgdPerfilAsPage(Long idPadre, Pageable pageable) throws Exception {
+        return repository.findAllBySgdPerfil_CtgCatalogoId(idPadre, pageable);
     }
 
 }

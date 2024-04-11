@@ -39,7 +39,7 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
         } catch (Exception e) {
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
-        listEntity.stream().filter(catalogo -> catalogo != null).forEach(entity -> {
+        listEntity.stream().filter(entity -> entity != null).forEach(entity -> {
             CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
             listmodel.add(model);
         });
@@ -94,14 +94,16 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
     @Override
     public Page<CtgCatalogoModel> findAllByCtgCatalogoPadreAsPage(Long idPadre, int page, String orderByProperty,
             int itemsPerPage) throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
         Page<CtgCatalogo> pageEntity = Page.empty();
         Page<CtgCatalogoModel> pageModel = Page.empty();
         try {
             pageEntity = service.findAllAsPage(constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
             pageModel = MyUtils.fullCtgCatalogoModelPage(pageEntity);
         } catch (Exception e) {
-            throw new MyServiceException(e);
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
+        MyUtils.finMetodo(start);
         return pageModel;
     }
 

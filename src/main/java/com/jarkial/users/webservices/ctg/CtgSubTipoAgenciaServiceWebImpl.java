@@ -68,14 +68,16 @@ public class CtgSubTipoAgenciaServiceWebImpl extends AbstractBaseServiceImpl imp
 
     @Override
     public Page<CtgSubTipoAgenciaModel> findAllByCtgTipoAgenciaAsPage(Long idPadre, int page, String orderByProperty, int itemsPerPage) throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
         Page<CtgSubTipoAgencia> pageEntity = Page.empty();
         Page<CtgSubTipoAgenciaModel> pageModel = Page.empty();
         try {
             pageEntity = service.findAllByCtgTipoAgenciaAsPage(idPadre, constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
             pageModel = MyUtils.fullCtgSubTipoAgenciaModelPage(pageEntity);
         } catch (Exception e) {
-            throw new MyServiceException(e);
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
+        MyUtils.finMetodo(start);
         return pageModel;
     }
 

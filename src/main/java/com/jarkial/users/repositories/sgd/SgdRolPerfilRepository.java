@@ -1,15 +1,14 @@
 package com.jarkial.users.repositories.sgd;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.jarkial.users.model.entity.ctg.CtgCatalogo;
 import com.jarkial.users.model.entity.sgd.SgdRolPerfil;
 import com.jarkial.users.repositories.AbstractBaseRepository;
-
-import java.util.List;
 
 @Repository
 public interface SgdRolPerfilRepository extends AbstractBaseRepository<SgdRolPerfil, Long>{
     
-    List<SgdRolPerfil> findAllBySgdPerfil(CtgCatalogo sgdPerfil)throws Exception;
+    Page<SgdRolPerfil> findAllBySgdPerfil_CtgCatalogoId(Long idPadre, Pageable pageable)throws Exception;
 }

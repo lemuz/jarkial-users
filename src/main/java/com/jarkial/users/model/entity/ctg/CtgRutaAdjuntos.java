@@ -9,6 +9,9 @@ import com.jarkial.users.model.entity.sgd.SgdUsuario;
 
 import java.sql.Timestamp;
 
+/*
+ * Entidad para almacenar la ruta de directorio donde se guardaran los documentos cargados
+ */
 @Entity
 @Table(name = "CTG_RUTA_ADJUNTOS")
 public class CtgRutaAdjuntos {

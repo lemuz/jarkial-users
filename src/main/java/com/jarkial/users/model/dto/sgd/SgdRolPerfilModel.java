@@ -4,17 +4,15 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.jarkial.users.model.dto.ctg.CtgCatalogoModel;
-
 @Data
-public class SgdRolPerfil {
+public class SgdRolPerfilModel {
     
     @Getter @Setter
     private Long sgdRolPerfilId;
 
     @Getter @Setter
-    private CtgCatalogoModel sgdPerfil;
+    private Long sgdPerfil;
 
     @Getter @Setter
-    private CtgCatalogoModel sgdRol;
+    private Long sgdRol;
 }

@@ -5,14 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.jarkial.users.configuration.utils.MyUtils;
 import com.jarkial.users.configuration.utils.MyUtilsConstant;
-import com.jarkial.users.model.dto.ctg.CtgCatalogoModel;
 import com.jarkial.users.model.dto.ctg.CtgTipoAgenciaModel;
-import com.jarkial.users.model.entity.ctg.CtgCatalogo;
 import com.jarkial.users.model.entity.ctg.CtgTipoAgencia;
 import com.jarkial.users.model.exceptions.MyServiceException;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
@@ -85,7 +82,7 @@ public class CtgTipoAgenciaServiceWebImpl extends AbstractBaseServiceImpl implem
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
         List<CtgTipoAgenciaModel> lista = new ArrayList<>();
-        findAll.stream().filter(catalogo -> catalogo != null).forEach(entity -> {
+        findAll.stream().filter(entity -> entity != null).forEach(entity -> {
             CtgTipoAgenciaModel model = new CtgTipoAgenciaModel();
             BeanUtils.copyProperties(entity, model);
             lista.add(model);

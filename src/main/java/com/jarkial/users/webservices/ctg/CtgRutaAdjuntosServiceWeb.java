@@ -12,5 +12,7 @@ public interface CtgRutaAdjuntosServiceWeb extends AbstractCrudServiceWeb<CtgRut
     
     List<CtgRutaAdjuntosModel> findAllBySgdUsuarioAsList(Long idPadre) throws MyServiceException;
 
+    List<CtgRutaAdjuntosModel> findAllAsList() throws MyServiceException;
+
     Page<CtgRutaAdjuntosModel> findAllAsPage(int page, String orderByProperty, int itemsPerPage) throws MyServiceException;
 }

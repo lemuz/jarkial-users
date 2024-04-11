@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jarkial.users.model.entity.ctg.CtgCatalogo;
-import com.jarkial.users.model.entity.gst.GstLog;
 import com.jarkial.users.model.entity.sgd.SgdRolPerfil;
 import com.jarkial.users.repositories.sgd.SgdRolPerfilRepository;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
@@ -60,8 +58,8 @@ public class SgdRolPerfilServiceImpl extends AbstractBaseServiceImpl implements 
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<SgdRolPerfil> findAllBySgdPerfil(CtgCatalogo sgdPerfil) throws Exception {
-        return repository.findAllBySgdPerfil(sgdPerfil);
+    public Page<SgdRolPerfil> findAllBySgdPerfilAsPage(Long idPadre, Pageable pageable) throws Exception {
+        return repository.findAllBySgdPerfil_CtgCatalogoId(idPadre, pageable);
 
     }
     

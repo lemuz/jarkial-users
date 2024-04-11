@@ -13,10 +13,10 @@ import java.util.Optional;
 @Repository
 public interface CtgCatalogoRepository extends AbstractBaseRepository<CtgCatalogo, Long>{
 
-    Optional<CtgCatalogo> findByCtgCatalogoNombreAndCtgCatalogoPadre_CtgCatalogoId(String ctgCatalogoNombre, Long ctgCatalogoPadreId);
+    Optional<CtgCatalogo> findByCtgCatalogoNombreAndCtgCatalogoPadre_CtgCatalogoId(String ctgCatalogoNombre, Long idPadre);
 
-    List<CtgCatalogo> findAllByCtgCatalogoPadre_CtgCatalogoId(Long ctgCatalogoPadreId);
+    List<CtgCatalogo> findAllByCtgCatalogoPadre_CtgCatalogoId(Long idPadre);
 
-    Page<CtgCatalogo> findAllByCtgCatalogoPadre_CtgCatalogoId(Long ctgCatalogoPadreId, Pageable pageable);
+    Page<CtgCatalogo> findAllByCtgCatalogoPadre_CtgCatalogoId(Long idPadre, Pageable pageable);
     
 }

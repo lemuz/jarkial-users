@@ -78,7 +78,7 @@ public class CtgRutaAdjuntosServiceWebImpl extends AbstractBaseServiceImpl imple
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
         List<CtgRutaAdjuntosModel> lista = new ArrayList<>();
-        findAll.stream().filter(catalogo -> catalogo != null).forEach(entity -> {
+        findAll.stream().filter(entity -> entity != null).forEach(entity -> {
             CtgRutaAdjuntosModel model = MyUtils.fullCtgRutaAdjuntosModel(entity);
             lista.add(model);
         });
@@ -88,14 +88,34 @@ public class CtgRutaAdjuntosServiceWebImpl extends AbstractBaseServiceImpl imple
 
     @Override
     public Page<CtgRutaAdjuntosModel> findAllAsPage(int page, String orderByProperty, int itemsPerPage) throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
         Page<CtgRutaAdjuntos> pageEntity = Page.empty();
         Page<CtgRutaAdjuntosModel> pageModel = Page.empty();
         try {
             pageEntity = service.findAllAsPage(constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
             pageModel = MyUtils.fullCtgRutaAdjuntosModelPage(pageEntity);
         } catch (Exception e) {
-            throw new MyServiceException(e);
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
+        MyUtils.finMetodo(start);
         return pageModel;
+    }
+
+    @Override
+    public List<CtgRutaAdjuntosModel> findAllAsList() throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
+        List<CtgRutaAdjuntos> findAll = new ArrayList<>();
+        try {
+            findAll = service.findAllAsList();
+        } catch (Exception e) {
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
+        }
+        List<CtgRutaAdjuntosModel> lista = new ArrayList<>();
+        findAll.stream().filter(entity -> entity != null).forEach(entity -> {
+            CtgRutaAdjuntosModel model = MyUtils.fullCtgRutaAdjuntosModel(entity);
+            lista.add(model);
+        });
+        MyUtils.finMetodo(start);
+        return lista;
     }
 }

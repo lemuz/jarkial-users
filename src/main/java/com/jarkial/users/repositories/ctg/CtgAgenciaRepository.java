@@ -10,5 +10,5 @@ import com.jarkial.users.repositories.AbstractBaseRepository;
 @Repository
 public interface CtgAgenciaRepository extends AbstractBaseRepository<CtgAgencia, Long>{
     
-    Page<CtgAgencia> findAllByCtgSubTipoAgencia_CtgSubTipoAgenciaId(Long ctgCatalogoPadreId, Pageable pageable);
+    Page<CtgAgencia> findAllByCtgSubTipoAgencia_CtgSubTipoAgenciaId(Long idPadre, Pageable pageable);
 }

@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.jarkial.users.model.entity.ctg.CtgCatalogo;
-
 @Data
 public class GstDocumentoCargadoModel {
 
@@ -19,8 +17,11 @@ public class GstDocumentoCargadoModel {
     private String gstDocumentoCargadoFecha;
 
     @Getter @Setter
-    private CtgCatalogo gstDocumentoCargadoTipoDocumento;
+    private Long gstDocumentoCargadoTipoDocumento;
 
     @Getter @Setter
     private String gstDocumentoCargadoExtencion;
+
+    @Getter @Setter
+    private Long sgdUsuario;
 }

@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 import com.jarkial.users.model.entity.ctg.CtgCatalogo;
+import com.jarkial.users.model.entity.sgd.SgdUsuario;
 
 @Entity
 @Table(name = "GST_DOCUMENTO_CARGADO")
@@ -35,4 +36,9 @@ public class GstDocumentoCargado {
     @Column(name = "gst_dcar_extencion", length=10)
     @Getter @Setter
     private String gstDocumentoCargadoExtencion;
+
+    @ManyToOne
+    @JoinColumn(name = "sgd_usu_id")
+    @Getter @Setter
+    private SgdUsuario sgdUsuario;
 }

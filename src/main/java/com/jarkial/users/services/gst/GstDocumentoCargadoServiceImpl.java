@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jarkial.users.model.entity.ctg.CtgAgencia;
 import com.jarkial.users.model.entity.gst.GstDocumentoCargado;
 import com.jarkial.users.repositories.gst.GstDocumentoCargadoRepository;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
@@ -57,5 +58,11 @@ public class GstDocumentoCargadoServiceImpl extends AbstractBaseServiceImpl impl
             return false;
         }
         return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<GstDocumentoCargado> findAllBySgdUsuarioAsPage(Long idPadre, Pageable pageable) throws Exception {
+        return repository.findAllBySgdUsuario_SgdUsuarioId(idPadre, pageable);
     }
 }
