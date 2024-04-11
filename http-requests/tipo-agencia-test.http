@@ -1,0 +1,43 @@
+### login
+
+POST http://localhost:8080/com-jarkial-api-login/security/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "ALEMUS",
+    "password": "20240301MYPWD"
+}
+
+### findById
+
+GET http://localhost:8081/com-jarkial-api-users/tipo/agencia/find/1 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI5NDBiYjFhOC03ODFhLTRmMjItOTgwNC1kOGFkN2ViZjAwZTAiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MzU3MTkzLCJleHAiOjE3MDkzNTg5OTN9.luFZocfINeR4qfgsP6bhX0wCSQnO0IQkx1KmNZD5MRabM_5Mx30GTBSZLl8cMsfYZXkzFd6Vlu-pBFA_3IwK5g
+
+### modify
+
+PUT http://localhost:8081/com-jarkial-api-users/tipo/agencia/modify/1 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI5NDBiYjFhOC03ODFhLTRmMjItOTgwNC1kOGFkN2ViZjAwZTAiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MzU3MTkzLCJleHAiOjE3MDkzNTg5OTN9.luFZocfINeR4qfgsP6bhX0wCSQnO0IQkx1KmNZD5MRabM_5Mx30GTBSZLl8cMsfYZXkzFd6Vlu-pBFA_3IwK5g
+content-type: application/json
+
+{
+    "ctgTipoAgenciaActivo": "1",
+    "ctgTipoAgenciaDescripcion": "OFICINAS CENTRALES"
+}
+
+### create
+
+POST http://localhost:8081/com-jarkial-api-users/tipo/agencia/new/ HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhNThmNjNmZC0xNjQ0LTRlODEtODAzZC1jMjgyYjljYTFhZmIiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDYyMDg2LCJleHAiOjE3MDkwNjM4ODZ9.l8Zexet57nZXx103bf944pg-HvzVsr6amcIjfwqfjJ_m_Tz095zVgtH4MRyfE7KmZICkCxqNd97hjhUhAr55hA
+content-type: application/json
+
+{
+    "ctgTipoAgenciaActivo": "1",
+    "ctgTipoAgenciaDescripcion": "OFICINAS CENTRALES"
+}
+
+### delete
+
+DELETE http://localhost:8081/com-jarkial-api-users/tipo/agencia/erase/?id=0 HTTP/1.1
+token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhNThmNjNmZC0xNjQ0LTRlODEtODAzZC1jMjgyYjljYTFhZmIiLCJkYXRhIjpbIlJPTEVfQURNSU5JU1RSQURPUl9DQVRBTE9HT1MiXSwic3ViIjoiQUxFTVVTIiwiaWF0IjoxNzA5MDYyMDg2LCJleHAiOjE3MDkwNjM4ODZ9.l8Zexet57nZXx103bf944pg-HvzVsr6amcIjfwqfjJ_m_Tz095zVgtH4MRyfE7KmZICkCxqNd97hjhUhAr55hA
+
+###

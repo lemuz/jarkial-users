@@ -16,5 +16,13 @@ public class MyUtilsConstant {
     public static final String ROLE_ADMIN = "ROLE_ADMINISTRADOR_CATALOGOS";
 
     public static final Long COD_PADRE_ROLES = 3L;
+
+    public static final String CODE_ERROR_READ = "00100";
+
+    public static final String CODE_ERROR_WRITE = "00200";
+
+    public static final String CODE_ERROR_DELETE = "00300";
+
+    public static final String CODE_ERROR_UNKNOW = "10000";
     
 }

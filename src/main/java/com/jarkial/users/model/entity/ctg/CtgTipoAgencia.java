@@ -24,5 +24,13 @@ public class CtgTipoAgencia {
     @Column(name = "ctg_tagn_descripcion", nullable=false, length=100)
     @Getter @Setter
     private String ctgTipoAgenciaDescripcion;
+
+    public CtgTipoAgencia(){
+        super();
+    }
+
+    public CtgTipoAgencia(Long id){
+        this.ctgTipoAgenciaId = id;
+    }
     
 }

@@ -7,30 +7,30 @@ import org.springframework.stereotype.Service;
 
 import com.jarkial.users.configuration.utils.MyUtils;
 import com.jarkial.users.configuration.utils.MyUtilsConstant;
-import com.jarkial.users.model.dto.ctg.CtgAgenciaModel;
-import com.jarkial.users.model.entity.ctg.CtgAgencia;
+import com.jarkial.users.model.dto.ctg.CtgSubTipoAgenciaModel;
+import com.jarkial.users.model.entity.ctg.CtgSubTipoAgencia;
 import com.jarkial.users.model.exceptions.MyServiceException;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
-import com.jarkial.users.services.ctg.CtgAgenciaService;
+import com.jarkial.users.services.ctg.CtgSubTipoAgenciaService;
 
 @Service
-public class CtgAgenciaServiceWebImpl extends AbstractBaseServiceImpl implements CtgAgenciaServiceWeb {
+public class CtgSubTipoAgenciaServiceWebImpl extends AbstractBaseServiceImpl implements CtgSubTipoAgenciaServiceWeb {
 
     @Autowired
-    CtgAgenciaService service;
+    CtgSubTipoAgenciaService service;
 
     @Override
-    public boolean update(Long entityId, CtgAgenciaModel model) throws Exception {
+    public boolean update(Long entityId, CtgSubTipoAgenciaModel model) throws Exception {
         long start = MyUtils.iniciaMetodo();
-        model.setCtgAgenciaId(entityId);
-        CtgAgencia entity = MyUtils.fullCtgAgenciaEntity(model);
+        model.setCtgSubTipoAgenciaId(entityId);
+        CtgSubTipoAgencia entity = MyUtils.fullCtgSubTipoAgenciaEntity(model);
         try {
             entity = service.update(entity);
         } catch (Exception e) {
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_WRITE, e);
         }
-        if (entity.getCtgAgenciaId() != null) {
-            model = MyUtils.fullCtgAgenciaModel(entity);
+        if (entity.getCtgSubTipoAgenciaId() != null) {
+            model = MyUtils.fullCtgSubTipoAgenciaModel(entity);
             MyUtils.finMetodo(start);
             return true;
         } else {
@@ -40,15 +40,15 @@ public class CtgAgenciaServiceWebImpl extends AbstractBaseServiceImpl implements
     }
 
     @Override
-    public CtgAgenciaModel findById(Long entityId) throws Exception {
+    public CtgSubTipoAgenciaModel findById(Long entityId) throws Exception {
         long start = MyUtils.iniciaMetodo();
-        CtgAgencia entity = new CtgAgencia();
+        CtgSubTipoAgencia entity = new CtgSubTipoAgencia();
         try {
             entity = service.findById(entityId);
         } catch (Exception e) {
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
-        CtgAgenciaModel model = MyUtils.fullCtgAgenciaModel(entity);
+        CtgSubTipoAgenciaModel model = MyUtils.fullCtgSubTipoAgenciaModel(entity);
         MyUtils.finMetodo(start);
         return model;
     }
@@ -67,12 +67,12 @@ public class CtgAgenciaServiceWebImpl extends AbstractBaseServiceImpl implements
     }
 
     @Override
-    public Page<CtgAgenciaModel> findAllByCtgSubTipoAgenciaAsPage(Long idPadre, int page, String orderByProperty, int itemsPerPage) throws MyServiceException {
-        Page<CtgAgencia> pageEntity = Page.empty();
-        Page<CtgAgenciaModel> pageModel = Page.empty();
+    public Page<CtgSubTipoAgenciaModel> findAllAsPage(Long idPadre, int page, String orderByProperty, int itemsPerPage) throws MyServiceException {
+        Page<CtgSubTipoAgencia> pageEntity = Page.empty();
+        Page<CtgSubTipoAgenciaModel> pageModel = Page.empty();
         try {
-            pageEntity = service.findAllByCtgSubTipoAgenciaAsPage(idPadre, constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
-            pageModel = MyUtils.fullCtgAgenciaModelPage(pageEntity);
+            pageEntity = service.findAllByCtgTipoAgenciaAsPage(idPadre, constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
+            pageModel = MyUtils.fullCtgSubTipoAgenciaModelPage(pageEntity);
         } catch (Exception e) {
             throw new MyServiceException(e);
         }

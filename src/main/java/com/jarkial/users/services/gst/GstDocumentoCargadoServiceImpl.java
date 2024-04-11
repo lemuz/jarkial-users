@@ -1,6 +1,8 @@
 package com.jarkial.users.services.gst;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,26 +18,32 @@ import java.util.List;
 public class GstDocumentoCargadoServiceImpl extends AbstractBaseServiceImpl implements GstDocumentoCargadoService{
 
     @Autowired
-    GstDocumentoCargadoRepository gstDocumentoCargadoRepository;
+    GstDocumentoCargadoRepository repository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<GstDocumentoCargado> findAll() throws Exception {
-        return gstDocumentoCargadoRepository.findAll();
+    public List<GstDocumentoCargado> findAllAsList() throws Exception {
+        return repository.findAll();
 
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<GstDocumentoCargado> findAllAsPage(Pageable pageable) throws Exception {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public GstDocumentoCargado findById(Long id) throws Exception {
-        return gstDocumentoCargadoRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
 
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public GstDocumentoCargado update(GstDocumentoCargado entity) throws Exception {
-        return gstDocumentoCargadoRepository.save(entity);
+        return repository.save(entity);
 
     }
 
@@ -43,11 +51,11 @@ public class GstDocumentoCargadoServiceImpl extends AbstractBaseServiceImpl impl
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public boolean deleteById(Long id) throws Exception {
         try{
-            gstDocumentoCargadoRepository.deleteById(id);
+            repository.deleteById(id);
         }catch(Exception exception){
             exception.printStackTrace();
             return false;
         }
         return true;
-    }   
+    }
 }

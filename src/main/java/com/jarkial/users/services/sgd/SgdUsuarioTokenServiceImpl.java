@@ -1,6 +1,8 @@
 package com.jarkial.users.services.sgd;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,7 @@ public class SgdUsuarioTokenServiceImpl extends AbstractBaseServiceImpl implemen
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<SgdUsuarioToken> findAll() throws Exception {
+    public List<SgdUsuarioToken> findAllAsList() throws Exception {
         return sgdUsuarioTokenRepository.findAll();
 
     }
@@ -48,5 +50,11 @@ public class SgdUsuarioTokenServiceImpl extends AbstractBaseServiceImpl implemen
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Page<SgdUsuarioToken> findAllAsPage(Pageable pageable) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAllAsPage'");
     }   
 }

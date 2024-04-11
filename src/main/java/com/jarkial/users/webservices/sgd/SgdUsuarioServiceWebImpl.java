@@ -1,61 +1,58 @@
 package com.jarkial.users.webservices.sgd;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jarkial.users.configuration.utils.MyUtils;
+import com.jarkial.users.configuration.utils.MyUtilsConstant;
 import com.jarkial.users.model.dto.sgd.SgdUsuarioModel;
 import com.jarkial.users.model.entity.ctg.CtgAgencia;
 import com.jarkial.users.model.entity.sgd.SgdUsuario;
-import com.jarkial.users.model.exceptions.MyServiceException;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
 import com.jarkial.users.services.sgd.SgdUsuarioService;
 
 @Service
-public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements SgdUsuarioServiceWeb{
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements SgdUsuarioServiceWeb {
 
     @Autowired
     SgdUsuarioService sgdUsuarioService;
 
     @Override
     public void actualizarSgdUsuarioLogueado(String sgdUsuarioUsername, Integer logueado) {
-        logger.info("Actualizar usuario logueado: " + sgdUsuarioUsername + " logueado: " + logueado);
+        long start = MyUtils.iniciaMetodo();
         String ms = "OK";
-        try{
-            if(sgdUsuarioUsername != null && !sgdUsuarioUsername.isEmpty() && logueado != null){
+        try {
+            if (sgdUsuarioUsername != null && !sgdUsuarioUsername.isEmpty() && logueado != null) {
                 SgdUsuario sgdUsuario = sgdUsuarioService.findBySgdUsuarioUsername(sgdUsuarioUsername);
-                if(sgdUsuario != null){
+                if (sgdUsuario != null) {
                     sgdUsuario.setSgdUsuarioLogueado(logueado);
                     sgdUsuarioService.update(sgdUsuario);
                     logger.info("Usuario actualizado exitosamente!");
-                }else{
+                } else {
                     ms = "Usuario no encontrado";
                     logger.warn(ms);
                 }
-            }else{
+            } else {
                 ms = "Parametros incompletos";
                 logger.warn(ms);
             }
-        }catch(Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
+        } finally {
+            MyUtils.finMetodo(start);
         }
-        
+
     }
 
     @Override
     public SgdUsuarioModel findById(Long entityId) throws Exception {
-        logger.info("[SgdUsuarioServiceWebImpl](findById)");
+        long start = MyUtils.iniciaMetodo();
         SgdUsuario sgdUsuario = new SgdUsuario();
         try {
             sgdUsuario = sgdUsuarioService.findById(entityId);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00100", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
         SgdUsuarioModel sgdUsuarioModel = new SgdUsuarioModel();
         BeanUtils.copyProperties(sgdUsuario, sgdUsuarioModel);
@@ -63,13 +60,13 @@ public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements
                 sgdUsuario.getSgdUsuarioPadre() != null ? sgdUsuario.getSgdUsuarioPadre().getSgdUsuarioId() : null);
         sgdUsuarioModel.setCtgAgencia(
                 sgdUsuario.getCtgAgencia() != null ? sgdUsuario.getCtgAgencia().getCtgAgenciaId() : null);
+        MyUtils.finMetodo(start);
         return sgdUsuarioModel;
     }
 
-
     @Override
     public boolean update(Long id, SgdUsuarioModel sgdUsuarioModel) throws Exception {
-        logger.info("[SgdUsuarioServiceWebImpl](update)");
+        long start = MyUtils.iniciaMetodo();
         SgdUsuario sgdUsuario = new SgdUsuario();
         BeanUtils.copyProperties(sgdUsuarioModel, sgdUsuario);
         sgdUsuario.setSgdUsuarioPadre(
@@ -82,8 +79,7 @@ public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements
         try {
             sgdUsuario = sgdUsuarioService.update(sgdUsuario);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00200", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_WRITE, e);
         }
         sgdUsuarioModel = new SgdUsuarioModel();
         BeanUtils.copyProperties(sgdUsuario, sgdUsuarioModel);
@@ -93,19 +89,20 @@ public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements
         sgdUsuarioModel.setCtgAgencia(
                 sgdUsuario.getCtgAgencia() != null ? sgdUsuario.getCtgAgencia().getCtgAgenciaId()
                         : null);
-        return sgdUsuarioModel.getSgdUsuarioId()!=null;
-    }  
+        MyUtils.finMetodo(start);
+        return sgdUsuarioModel.getSgdUsuarioId() != null;
+    }
 
     @Override
     public boolean deleteById(Long id) throws Exception {
-        logger.info("[SgdUsuarioServiceWebImpl](deleteById)");
+        long start = MyUtils.iniciaMetodo();
         boolean respuesta = false;
         try {
             respuesta = sgdUsuarioService.deleteById(id);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00300", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_DELETE, e);
         }
+        MyUtils.finMetodo(start);
         return respuesta;
-    }   
+    }
 }

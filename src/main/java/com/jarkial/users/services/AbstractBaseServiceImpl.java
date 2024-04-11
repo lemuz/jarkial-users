@@ -20,19 +20,19 @@ import java.util.List;
 
 public class AbstractBaseServiceImpl {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static final int NUMBER_OF_RECORDS_PER_PAGE = 25;
 
     protected String getPrincipal(){ return SecurityContextHolder.getContext().getAuthentication().getName();}
 
     protected Pageable constructPageSpecification(int pageIndex){
-        Pageable pageSpecification = new PageRequest((pageIndex>0?(pageIndex-1):pageIndex), NUMBER_OF_RECORDS_PER_PAGE);
+        Pageable pageSpecification = PageRequest.of((pageIndex>0?(pageIndex-1):pageIndex), NUMBER_OF_RECORDS_PER_PAGE);
         return pageSpecification;
     }
 
     protected Pageable constructPageSpecification(int pageIndex, int recordsPerPage){
-        Pageable pageSpecification = new PageRequest((pageIndex>0?(pageIndex-1):pageIndex), recordsPerPage);
+        Pageable pageSpecification = PageRequest.of((pageIndex>0?(pageIndex-1):pageIndex), recordsPerPage);
         return pageSpecification;
     }
 
@@ -41,23 +41,24 @@ public class AbstractBaseServiceImpl {
         if(sortProperties.size() >0) {
             List<Sort.Order> orders = new ArrayList<>();
             for(int i=0; i < sortProperties.size(); i++){
-                Sort.Order tmp = new Sort.Order(sortProperties.get(i));
+                Sort.Order tmp = Sort.Order .by(sortProperties.get(i));
+                // Sort.Order tmp = new Sort.Order(sortProperties.get(i));
                 orders.add(tmp);
             }
-            pageSpecification = new PageRequest((pageIndex>0? (pageIndex -1) : pageIndex), recordsPerPage, sortByList(orders));
+            pageSpecification = PageRequest.of((pageIndex>0? (pageIndex -1) : pageIndex), recordsPerPage, sortByList(orders));
         }else{
-            pageSpecification = new PageRequest((pageIndex>0? (pageIndex -1) : pageIndex), recordsPerPage);
+            pageSpecification = PageRequest.of((pageIndex>0? (pageIndex -1) : pageIndex), recordsPerPage);
         }
         return pageSpecification;
     }
 
     protected Pageable constructPageSpecificationDesc(int pageIndex, String sortProperty, int recordsPerPage){
-        Pageable pageSpecification = new PageRequest((pageIndex > 0? (pageIndex -1): pageIndex), NUMBER_OF_RECORDS_PER_PAGE, sortByDesc(sortProperty));
+        Pageable pageSpecification = PageRequest.of((pageIndex > 0? (pageIndex -1): pageIndex), NUMBER_OF_RECORDS_PER_PAGE, sortByDesc(sortProperty));
         return pageSpecification;
     }
 
     protected Pageable constructPageSpecificationAsc(int pageIndex, String sortProperty, int recordsPerPage){
-        Pageable pageSpecification = new PageRequest((pageIndex > 0? (pageIndex -1): pageIndex), NUMBER_OF_RECORDS_PER_PAGE, sortByAsc(sortProperty));
+        Pageable pageSpecification = PageRequest.of((pageIndex > 0? (pageIndex -1): pageIndex), NUMBER_OF_RECORDS_PER_PAGE, sortByAsc(sortProperty));
         return pageSpecification;
     }
 
@@ -65,7 +66,7 @@ public class AbstractBaseServiceImpl {
 
     protected Sort sortByAsc(String sortProperty){ return new Sort(Sort.Direction.ASC, sortProperty);}
 
-    protected Sort sortByList(List<Sort.Order> orders){ return new Sort(orders);}
+    protected Sort sortByList(List<Sort.Order> orders){ return Sort.by(orders);}
 
     protected List<String> getNameAnnotatedFields(Object entity, Class jsonViewClass){
         List<String> camposAnotados = new ArrayList<>();

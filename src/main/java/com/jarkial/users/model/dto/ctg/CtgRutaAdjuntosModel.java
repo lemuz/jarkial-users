@@ -26,6 +26,6 @@ public class CtgRutaAdjuntosModel {
     private Timestamp ctgRutaAdjuntosFechaActualizacion;
     
     @Getter @Setter
-    private SgdUsuario sgdUsuario;
+    private Long sgdUsuario;
 
 }

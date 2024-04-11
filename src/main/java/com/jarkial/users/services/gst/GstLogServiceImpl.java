@@ -1,6 +1,8 @@
 package com.jarkial.users.services.gst;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,26 +21,31 @@ import java.util.List;
 public class GstLogServiceImpl extends AbstractBaseServiceImpl implements GstLogService{
 
     @Autowired
-    GstLogRepository gstLogRepository;
+    GstLogRepository repository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<GstLog> findAll() throws Exception {
-        return gstLogRepository.findAll();
+    public List<GstLog> findAllAsList() throws Exception {
+        return repository.findAll();
+    }
 
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<GstLog> findAllAsPage(Pageable pageable) throws Exception {
+        return repository.findAll(pageable);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public GstLog findById(Long id) throws Exception {
-        return gstLogRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
 
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public GstLog update(GstLog entity) throws Exception {
-        return gstLogRepository.save(entity);
+        return repository.save(entity);
 
     }
 
@@ -46,7 +53,7 @@ public class GstLogServiceImpl extends AbstractBaseServiceImpl implements GstLog
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public boolean deleteById(Long id) throws Exception {
         try{
-            gstLogRepository.deleteById(id);
+            repository.deleteById(id);
         }catch(Exception exception){
             exception.printStackTrace();
             return false;

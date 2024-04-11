@@ -1,10 +1,13 @@
 package com.jarkial.users.services.sgd;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jarkial.users.model.entity.gst.GstLog;
 import com.jarkial.users.model.entity.sgd.SgdUsuario;
 import com.jarkial.users.repositories.sgd.SgdUsuarioRepository;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
@@ -16,31 +19,37 @@ import java.util.List;
 public class SgdUsuarioServiceImpl extends AbstractBaseServiceImpl implements SgdUsuarioService{
 
     @Autowired
-    SgdUsuarioRepository sgdUsuarioRepository;
+    SgdUsuarioRepository repository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<SgdUsuario> findAll() throws Exception {
-        return sgdUsuarioRepository.findAll();
+    public List<SgdUsuario> findAllAsList() throws Exception {
+        return repository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<SgdUsuario> findAllAsPage(Pageable pageable) throws Exception {
+        return repository.findAll(pageable);
+    } 
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public SgdUsuario findById(Long id) throws Exception {
-        return sgdUsuarioRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public SgdUsuario update(SgdUsuario sgdUsuario) throws Exception {
-        return sgdUsuarioRepository.save(sgdUsuario);
+        return repository.save(sgdUsuario);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public boolean deleteById(Long id) throws Exception {
         try{
-            sgdUsuarioRepository.deleteById(id);
+            repository.deleteById(id);
         }catch(Exception exception){
             exception.printStackTrace();
             return false;
@@ -51,6 +60,7 @@ public class SgdUsuarioServiceImpl extends AbstractBaseServiceImpl implements Sg
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public SgdUsuario findBySgdUsuarioUsername(String username) throws Exception {
-        return sgdUsuarioRepository.findBySgdUsuarioUsername(username).orElse(null);
-    } 
+        return repository.findBySgdUsuarioUsername(username).orElse(null);
+    }
+
 }

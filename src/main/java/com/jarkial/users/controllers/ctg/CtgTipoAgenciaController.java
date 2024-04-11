@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.common.util.impl.Log_.logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jarkial.users.configuration.utils.MyUtils;
 import com.jarkial.users.controllers.AbstractBaseController;
 import com.jarkial.users.controllers.CrudController;
-import com.jarkial.users.model.dto.ctg.CtgAgenciaModel;
-import com.jarkial.users.webservices.ctg.CtgAgenciaServiceWeb;
+import com.jarkial.users.model.dto.ctg.CtgTipoAgenciaModel;
+import com.jarkial.users.webservices.ctg.CtgTipoAgenciaServiceWeb;
 
 @RestController
-@RequestMapping("agencia")
-public class CtgAgenciaController extends AbstractBaseController implements CrudController<CtgAgenciaModel, Long> {
+@RequestMapping("tipo/agencia")
+public class CtgTipoAgenciaController extends AbstractBaseController
+        implements CrudController<CtgTipoAgenciaModel, Long> {
 
     @Autowired
-    CtgAgenciaServiceWeb serviceWeb;
+    CtgTipoAgenciaServiceWeb serviceWeb;
 
     @Override
     @GetMapping("/find/{id}")
@@ -46,7 +46,7 @@ public class CtgAgenciaController extends AbstractBaseController implements Crud
 
     @Override
     @PostMapping("/new/")
-    public ResponseEntity<?> create(@RequestBody @NotBlank @Valid CtgAgenciaModel model, HttpServletRequest request)
+    public ResponseEntity<?> create(@RequestBody @NotBlank @Valid CtgTipoAgenciaModel model, HttpServletRequest request)
             throws Exception {
         long start = MyUtils.iniciaMetodo();
         ResponseEntity<?> response;
@@ -59,7 +59,7 @@ public class CtgAgenciaController extends AbstractBaseController implements Crud
     @Override
     @PutMapping("/modify/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long entityId,
-            @RequestBody @NotBlank @Valid CtgAgenciaModel model, HttpServletRequest request) throws Exception {
+            @RequestBody @NotBlank @Valid CtgTipoAgenciaModel model, HttpServletRequest request) throws Exception {
         long start = MyUtils.iniciaMetodo();
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, serviceWeb.update(entityId, model), HttpStatus.OK,
@@ -81,13 +81,12 @@ public class CtgAgenciaController extends AbstractBaseController implements Crud
 
     @InitBinder("create")
     public void InitBinderCreate(WebDataBinder binder) {
-        binder.setDisallowedFields("ctgAgenciaId", "ctgAgenciaActivo", "ctgAgenciaCodigo", "ctgAgenciaDescripcion",
-                "ctgSubTipoAgencia", "ctgAgenciaAtiendeOtrasAgencias", "ctgAgenciaPoseeComite");
+        binder.setDisallowedFields("ctgTipoAgenciaId", "ctgTipoAgenciaActivo", "ctgTipoAgenciaDescripcion");
     }
 
     @InitBinder("update")
     public void InitBinderUpdate(WebDataBinder binder) {
-        binder.setDisallowedFields("ctgAgenciaId", "ctgAgenciaActivo", "ctgAgenciaCodigo", "ctgAgenciaDescripcion",
-                "ctgSubTipoAgencia", "ctgAgenciaAtiendeOtrasAgencias", "ctgAgenciaPoseeComite");
+        binder.setDisallowedFields("ctgTipoAgenciaId", "ctgTipoAgenciaActivo", "ctgTipoAgenciaDescripcion");
     }
+
 }

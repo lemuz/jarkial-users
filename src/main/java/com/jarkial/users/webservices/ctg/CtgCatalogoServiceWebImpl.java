@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.jarkial.users.configuration.utils.MyUtils;
+import com.jarkial.users.configuration.utils.MyUtilsConstant;
+import com.jarkial.users.model.dto.ctg.CtgAgenciaModel;
 import com.jarkial.users.model.dto.ctg.CtgCatalogoModel;
+import com.jarkial.users.model.entity.ctg.CtgAgencia;
 import com.jarkial.users.model.entity.ctg.CtgCatalogo;
 import com.jarkial.users.model.exceptions.MyServiceException;
 import com.jarkial.users.services.AbstractBaseServiceImpl;
@@ -20,86 +22,98 @@ import com.jarkial.users.services.ctg.CtgCatalogoService;
 @Service
 public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implements CtgCatalogoServiceWeb {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
-    CtgCatalogoService ctgCatalogoService;
+    CtgCatalogoService service;
 
     @Override
-    public List<CtgCatalogoModel> findAllByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre, Long ctgCatalogoPadreId) throws MyServiceException {
-        logger.info("[CtgCatalogoServiceWebImpl](findAllByCtgCatalogoPadre)");
-        List<CtgCatalogo> findAll = new ArrayList<>();
+    public CtgCatalogoModel findByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre,
+            Long ctgCatalogoPadreId) throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
+        CtgCatalogo entity = new CtgCatalogo();
         try {
-            if(StringUtils.isNotBlank(ctgCatalogoNombre))
-                findAll.add(ctgCatalogoService.findByCtgCatalogoNombreAndCtgCatalogoPadreId(ctgCatalogoNombre, ctgCatalogoPadreId));
-            else
-                findAll = ctgCatalogoService.findAllByCtgCatalogoPadreId(ctgCatalogoPadreId);
+                entity = service.findByCtgCatalogoNombreAndCtgCatalogoPadreId(ctgCatalogoNombre, ctgCatalogoPadreId);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00100", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
-        List<CtgCatalogoModel> lista = new ArrayList<>();
-        findAll.stream().filter(catalogo -> catalogo!=null).forEach(s -> {
-            CtgCatalogoModel model = new CtgCatalogoModel();
-            BeanUtils.copyProperties(s, model);
-            model.setCtgCatalogoPadre(
-                    s.getCtgCatalogoPadre() != null ? s.getCtgCatalogoPadre().getCtgCatalogoId() : null);
-            lista.add(model);
-        });
-        return lista;
+        CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
+        MyUtils.finMetodo(start);
+        return model;
     }
 
     @Override
     public CtgCatalogoModel findById(Long entityId) throws MyServiceException {
-        logger.info("[CtgCatalogoServiceWebImpl](findById)");
-        CtgCatalogo catalogo = new CtgCatalogo();
+        long start = MyUtils.iniciaMetodo();
+        CtgCatalogo entity = new CtgCatalogo();
         try {
-            catalogo = ctgCatalogoService.findById(entityId);
+            entity = service.findById(entityId);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00100", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
-        CtgCatalogoModel catalogoModel = new CtgCatalogoModel();
-        BeanUtils.copyProperties(catalogo, catalogoModel);
-        catalogoModel.setCtgCatalogoPadre(
-                catalogo.getCtgCatalogoPadre() != null ? catalogo.getCtgCatalogoPadre().getCtgCatalogoId() : null);
-        return catalogoModel;
+        CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
+        MyUtils.finMetodo(start);
+        return model;
     }
 
     @Override
-    public boolean update(Long idCatalogo, CtgCatalogoModel catalogoModel) throws Exception {
-        logger.info("[CtgCatalogoServiceWebImpl](update)");
-        CtgCatalogo catalogoEntity = new CtgCatalogo();
-        BeanUtils.copyProperties(catalogoModel, catalogoEntity);
-        catalogoEntity.setCtgCatalogoPadre(
-                catalogoModel.getCtgCatalogoPadre() != null ? new CtgCatalogo(catalogoModel.getCtgCatalogoPadre())
-                        : null);
-        catalogoEntity.setCtgCatalogoId(idCatalogo);
+    public boolean update(Long entityId, CtgCatalogoModel catalogoModel) throws Exception {
+        //agregar validacion para que no se ingresen catalogos con nombre repetido con el mismo catalogo padre
+        long start = MyUtils.iniciaMetodo();
+        catalogoModel.setCtgCatalogoId(entityId);
+        CtgCatalogo catalogoEntity = MyUtils.fullCtgCatalogoEntity(catalogoModel);
         try {
-            catalogoEntity = ctgCatalogoService.update(catalogoEntity);
+            catalogoEntity = service.update(catalogoEntity);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00200", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_WRITE, e);
         }
-        catalogoModel = new CtgCatalogoModel();
-        BeanUtils.copyProperties(catalogoEntity, catalogoModel);
-        catalogoModel.setCtgCatalogoPadre(
-                catalogoEntity.getCtgCatalogoPadre() != null ? catalogoEntity.getCtgCatalogoPadre().getCtgCatalogoId()
-                        : null);
+        catalogoModel = MyUtils.fullCtgCatalogoModel(catalogoEntity);
+        MyUtils.finMetodo(start);
         return catalogoModel.getCtgCatalogoId() != null;
     }
 
     @Override
-    public boolean deleteById(Long id) throws Exception {
-        logger.info("[CtgCatalogoServiceWebImpl](deleteById)");
+    public boolean deleteById(Long entityId) throws Exception {
+        //agregar validacion para no borrar catalogo padre que tenga hijos dependientes
+        long start = MyUtils.iniciaMetodo();
         boolean respuesta = false;
         try {
-            respuesta = ctgCatalogoService.deleteById(id);
+            respuesta = service.deleteById(entityId);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyServiceException("00300", MyUtils.getStackTrace(e));
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_DELETE, e);
         }
+        MyUtils.finMetodo(start);
         return respuesta;
+    }
+
+    @Override
+    public List<CtgCatalogoModel> findAllByCtgCatalogoPadreAsList(Long idPadre) throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
+        List<CtgCatalogo> findAll = new ArrayList<>();
+        try {
+            findAll = service.findAllByCtgCatalogoPadreIdAsList(idPadre);
+        } catch (Exception e) {
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
+        }
+        List<CtgCatalogoModel> lista = new ArrayList<>();
+        findAll.stream().filter(catalogo -> catalogo != null).forEach(entity -> {
+            CtgCatalogoModel model = MyUtils.fullCtgCatalogoModel(entity);
+            lista.add(model);
+        });
+        MyUtils.finMetodo(start);
+        return lista;
+    }
+
+    @Override
+    public Page<CtgCatalogoModel> findAllByCtgCatalogoPadreAsPage(Long idPadre, int page, String orderByProperty,
+            int itemsPerPage) throws MyServiceException {
+        Page<CtgCatalogo> pageEntity = Page.empty();
+        Page<CtgCatalogoModel> pageModel = Page.empty();
+        try {
+            pageEntity = service.findAllAsPage(constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
+            pageModel = MyUtils.fullCtgCatalogoModelPage(pageEntity);
+        } catch (Exception e) {
+            throw new MyServiceException(e);
+        }
+        return pageModel;
     }
 
 }

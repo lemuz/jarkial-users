@@ -17,5 +17,5 @@ public class CtgSubTipoAgenciaModel {
     private String ctgSubTipoAgenciaDescripcion;
 
     @Getter @Setter
-    private CtgTipoAgenciaModel ctgTipoAgencia;
+    private Long ctgTipoAgencia;
 }

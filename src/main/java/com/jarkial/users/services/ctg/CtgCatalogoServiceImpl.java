@@ -1,6 +1,8 @@
 package com.jarkial.users.services.ctg;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,31 +18,37 @@ import java.util.List;
 public class CtgCatalogoServiceImpl extends AbstractBaseServiceImpl implements CtgCatalogoService{
 
     @Autowired
-    CtgCatalogoRepository ctgCatalogoRepository;
+    CtgCatalogoRepository repository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<CtgCatalogo> findAll() throws Exception {
-        return ctgCatalogoRepository.findAll();
+    public List<CtgCatalogo> findAllAsList() throws Exception {
+        return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<CtgCatalogo> findAllAsPage(Pageable pageable) throws Exception {
+        return repository.findAll(pageable);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public CtgCatalogo findById(Long id) throws Exception {
-        return ctgCatalogoRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public CtgCatalogo update(CtgCatalogo entity) throws Exception {
-        return ctgCatalogoRepository.save(entity);
+        return repository.save(entity);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = {Exception.class}, propagation = Propagation.SUPPORTS)
     public boolean deleteById(Long id) throws Exception {
         try{
-            ctgCatalogoRepository.deleteById(id);
+            repository.deleteById(id);
         }catch(Exception exception){
             exception.printStackTrace();
             return false;
@@ -51,13 +59,19 @@ public class CtgCatalogoServiceImpl extends AbstractBaseServiceImpl implements C
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public CtgCatalogo findByCtgCatalogoNombreAndCtgCatalogoPadreId(String nombre, Long ctgCatalogoPadreId) throws Exception{
-        return ctgCatalogoRepository.findByCtgCatalogoNombreAndCtgCatalogoPadre_CtgCatalogoId(nombre, ctgCatalogoPadreId).orElse(null);
+        return repository.findByCtgCatalogoNombreAndCtgCatalogoPadre_CtgCatalogoId(nombre, ctgCatalogoPadreId).orElse(null);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<CtgCatalogo> findAllByCtgCatalogoPadreId(Long ctgCatalogoPadreId) throws Exception {
-        return ctgCatalogoRepository.findAllByCtgCatalogoPadre_CtgCatalogoId(ctgCatalogoPadreId);
+    public List<CtgCatalogo> findAllByCtgCatalogoPadreIdAsList(Long ctgCatalogoPadreId) throws Exception {
+        return repository.findAllByCtgCatalogoPadre_CtgCatalogoId(ctgCatalogoPadreId);
 
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<CtgCatalogo> findAllByCtgCatalogoPadreIdAsPage(Long ctgCatalogoPadreId, Pageable pageable) throws Exception {
+        return repository.findAllByCtgCatalogoPadre_CtgCatalogoId(ctgCatalogoPadreId, pageable);
     }
 }

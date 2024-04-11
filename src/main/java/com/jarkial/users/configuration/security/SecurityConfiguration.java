@@ -95,7 +95,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
      @Override
      protected void configure(HttpSecurity httpSecurity) throws Exception{
         try{
-            List<CtgCatalogo> roles = ctgCatalogoService.findAll().stream().distinct().filter(c -> c.getCtgCatalogoPadre() != null && c.getCtgCatalogoPadre().getCtgCatalogoId().equals(MyUtilsConstant.COD_PADRE_ROLES)).collect(Collectors.toList());
+            List<CtgCatalogo> roles = ctgCatalogoService.findAllAsList().stream().distinct().filter(c -> c.getCtgCatalogoPadre() != null && c.getCtgCatalogoPadre().getCtgCatalogoId().equals(MyUtilsConstant.COD_PADRE_ROLES)).collect(Collectors.toList());
             List<String> allRoles = roles.stream().map(CtgCatalogo::getCtgCatalogoNombre).collect(Collectors.toList());
             httpSecurity.cors().and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             httpSecurity.headers()
