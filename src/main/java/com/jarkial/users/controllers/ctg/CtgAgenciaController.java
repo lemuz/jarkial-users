@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.common.util.impl.Log_.logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ import com.jarkial.users.model.dto.ctg.CtgAgenciaModel;
 import com.jarkial.users.webservices.ctg.CtgAgenciaServiceWeb;
 
 @RestController
-@RequestMapping("agencia")
+@RequestMapping("/agency")
 public class CtgAgenciaController extends AbstractBaseController implements CrudController<CtgAgenciaModel, Long> {
 
     @Autowired
@@ -35,7 +34,7 @@ public class CtgAgenciaController extends AbstractBaseController implements Crud
 
     @Override
     @GetMapping("/find/{id}")
-    public ResponseEntity<?> show(@PathVariable("id") Long entityId) throws Exception {
+    public ResponseEntity<?> findById(@PathVariable("id") Long entityId) throws Exception {
         long start = MyUtils.iniciaMetodo();
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findById(entityId), HttpStatus.OK,
@@ -70,12 +69,20 @@ public class CtgAgenciaController extends AbstractBaseController implements Crud
 
     @Override
     @DeleteMapping("/erase/")
-    public ResponseEntity<?> delete(@RequestParam("id") Long entityId, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> deleteById(@RequestParam("id") Long entityId, HttpServletRequest request) throws Exception {
         long start = MyUtils.iniciaMetodo();
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, serviceWeb.deleteById(entityId), HttpStatus.OK,
                 "00000");
         MyUtils.finMetodo(start);
+        return response;
+    }
+
+    @GetMapping("/search/page/")
+    public ResponseEntity<?> findAllByCtgSubTipoAgenciaAsPage(@RequestParam(name="page", defaultValue = "0") Integer page, @RequestParam(name="property", defaultValue = "ctgCatNombre") String property, @RequestParam(name="itemsPerPage", defaultValue = "10") Integer itemsPerPage, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
+        ResponseEntity<?> response;
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findAllByCtgSubTipoAgenciaAsPage(idPadre, page, property, itemsPerPage),
+                HttpStatus.OK, "00000");
         return response;
     }
 

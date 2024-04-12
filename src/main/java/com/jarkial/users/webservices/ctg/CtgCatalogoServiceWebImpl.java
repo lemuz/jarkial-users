@@ -26,7 +26,7 @@ public class CtgCatalogoServiceWebImpl extends AbstractBaseServiceImpl implement
     CtgCatalogoService service;
 
     @Override
-    public List<CtgCatalogoModel> findByCtgCatNombreAndCtgCatalogoPadre(String ctgCatalogoNombre,
+    public List<CtgCatalogoModel> findByCtgCatNombreAndCtgCatalogoPadreAsList(String ctgCatalogoNombre,
             Long ctgCatalogoPadreId) throws MyServiceException {
         long start = MyUtils.iniciaMetodo();
         List<CtgCatalogo> listEntity = new ArrayList<>();

@@ -83,11 +83,11 @@ public class SgdUsuarioDetailsServiceImpl implements UserDetailsService {
 
     private List<GrantedAuthority> getAuthorities(SgdUsuario usuario) throws Exception {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        List<SgdUsuarioPerfil> perfiles = sgdUsuarioPerfilService.findAllBySgdUsuario(usuario);
+        List<SgdUsuarioPerfil> perfiles = sgdUsuarioPerfilService.findAllBySgdUsuarioAsList(usuario.getSgdUsuarioId());
         perfiles.stream().forEach(perfil -> {
             List<SgdRolPerfil> rolesPerfil = new ArrayList<>();
             try {
-                rolesPerfil = sgdRolPerfilService.findAllBySgdPerfil(perfil.getSgdPerfil());
+                rolesPerfil = sgdRolPerfilService.findAllBySgdPerfilAsList(perfil.getSgdPerfil().getCtgCatalogoId());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

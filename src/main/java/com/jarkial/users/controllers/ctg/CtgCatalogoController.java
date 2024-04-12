@@ -30,30 +30,14 @@ import com.jarkial.users.webservices.ctg.CtgCatalogoServiceWeb;
 public class CtgCatalogoController extends AbstractBaseController implements CrudController<CtgCatalogoModel, Long> {
 
     @Autowired
-    CtgCatalogoServiceWeb ctgCatalogoServiceWeb;
+    CtgCatalogoServiceWeb serviceWeb;
 
     @Override
     @GetMapping("/find/{id}")
-    public ResponseEntity<?> show(@PathVariable("id") Long entityId) throws Exception{
+    public ResponseEntity<?> findById(@PathVariable("id") Long entityId) throws Exception{
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findById(entityId), HttpStatus.OK,
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findById(entityId), HttpStatus.OK,
                 "00000");
-        return response;
-    }
-
-    @GetMapping("/search/")
-    public ResponseEntity<?> findAsList(@RequestParam(name="ctgCatNombre", defaultValue = StringUtils.EMPTY) String ctgCatNombre, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
-        ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findByCtgCatNombreAndCtgCatalogoPadre(ctgCatNombre, idPadre),
-                HttpStatus.OK, "00000");
-        return response;
-    }
-
-    @GetMapping("/search/page/")
-    public ResponseEntity<?> findAsPage(@RequestParam(name="page", defaultValue = "0") Integer page, @RequestParam(name="property", defaultValue = "ctgCatNombre") String property, @RequestParam(name="itemsPerPage", defaultValue = "10") Integer itemsPerPage, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
-        ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.findAllByCtgCatalogoPadreAsPage(idPadre, page, property, itemsPerPage),
-                HttpStatus.OK, "00000");
         return response;
     }
 
@@ -61,7 +45,7 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     @PostMapping("/new/")
     public ResponseEntity<?> create(@RequestBody @NotBlank @Valid CtgCatalogoModel model, HttpServletRequest request) throws Exception{
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.update(0L, model), HttpStatus.OK,
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.update(0L, model), HttpStatus.OK,
                 "00000");
         return response;
     }
@@ -70,17 +54,33 @@ public class CtgCatalogoController extends AbstractBaseController implements Cru
     @PutMapping("/modify/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long entityId, @RequestBody @NotBlank @Valid CtgCatalogoModel model, HttpServletRequest request) throws Exception{
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.update(entityId, model), HttpStatus.OK,
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.update(entityId, model), HttpStatus.OK,
                 "00000");
         return response;
     }
 
     @Override
     @DeleteMapping("/erase/")
-    public ResponseEntity<?> delete(@RequestParam("id") Long entityId, HttpServletRequest request) throws Exception{
+    public ResponseEntity<?> deleteById(@RequestParam("id") Long entityId, HttpServletRequest request) throws Exception{
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, ctgCatalogoServiceWeb.deleteById(entityId), HttpStatus.OK,
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.deleteById(entityId), HttpStatus.OK,
                 "00000");
+        return response;
+    }
+
+    @GetMapping("/search/")
+    public ResponseEntity<?> findByCtgCatNombreAndCtgCatalogoPadreAsList(@RequestParam(name="ctgCatNombre", defaultValue = StringUtils.EMPTY) String ctgCatNombre, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
+        ResponseEntity<?> response;
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findByCtgCatNombreAndCtgCatalogoPadreAsList(ctgCatNombre, idPadre),
+                HttpStatus.OK, "00000");
+        return response;
+    }
+
+    @GetMapping("/search/page/")
+    public ResponseEntity<?> findAllByCtgCatalogoPadreAsPage(@RequestParam(name="page", defaultValue = "0") Integer page, @RequestParam(name="property", defaultValue = "ctgCatNombre") String property, @RequestParam(name="itemsPerPage", defaultValue = "10") Integer itemsPerPage, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
+        ResponseEntity<?> response;
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findAllByCtgCatalogoPadreAsPage(idPadre, page, property, itemsPerPage),
+                HttpStatus.OK, "00000");
         return response;
     }
 

@@ -24,6 +24,7 @@ public class GstDocumentoCargadoServiceWebImpl extends AbstractBaseServiceImpl i
         long start = MyUtils.iniciaMetodo();
         model.setGstDocumentoCargadoId(entityId);
         GstDocumentoCargado entity = MyUtils.fullGstDocumentoCargadoEntity(model);
+        //agregar logica para subir archivo y guardarlo en el sistema de archivos, se debe colocar la ruta donde se guarde en el entity
         try {
             entity = service.update(entity);
         } catch (Exception e) {

@@ -22,16 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jarkial.users.configuration.utils.MyUtils;
 import com.jarkial.users.controllers.AbstractBaseController;
 import com.jarkial.users.controllers.CrudController;
-import com.jarkial.users.model.dto.ctg.CtgTipoAgenciaModel;
-import com.jarkial.users.webservices.ctg.CtgTipoAgenciaServiceWeb;
+import com.jarkial.users.model.dto.ctg.CtgSubTipoAgenciaModel;
+import com.jarkial.users.webservices.ctg.CtgSubTipoAgenciaServiceWeb;
 
 @RestController
-@RequestMapping("/agency/type")
-public class CtgTipoAgenciaController extends AbstractBaseController
-        implements CrudController<CtgTipoAgenciaModel, Long> {
+@RequestMapping("/agency/sub-type")
+public class CtgSubTipoAgenciaController extends AbstractBaseController implements CrudController<CtgSubTipoAgenciaModel, Long> {
 
     @Autowired
-    CtgTipoAgenciaServiceWeb serviceWeb;
+    CtgSubTipoAgenciaServiceWeb serviceWeb;
 
     @Override
     @GetMapping("/find/{id}")
@@ -46,7 +45,7 @@ public class CtgTipoAgenciaController extends AbstractBaseController
 
     @Override
     @PostMapping("/new/")
-    public ResponseEntity<?> create(@RequestBody @NotBlank @Valid CtgTipoAgenciaModel model, HttpServletRequest request)
+    public ResponseEntity<?> create(@RequestBody @NotBlank @Valid CtgSubTipoAgenciaModel model, HttpServletRequest request)
             throws Exception {
         long start = MyUtils.iniciaMetodo();
         ResponseEntity<?> response;
@@ -59,7 +58,7 @@ public class CtgTipoAgenciaController extends AbstractBaseController
     @Override
     @PutMapping("/modify/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long entityId,
-            @RequestBody @NotBlank @Valid CtgTipoAgenciaModel model, HttpServletRequest request) throws Exception {
+            @RequestBody @NotBlank @Valid CtgSubTipoAgenciaModel model, HttpServletRequest request) throws Exception {
         long start = MyUtils.iniciaMetodo();
         ResponseEntity<?> response;
         response = generateSingleResponseWithCode(SUCCESS, serviceWeb.update(entityId, model), HttpStatus.OK,
@@ -79,22 +78,21 @@ public class CtgTipoAgenciaController extends AbstractBaseController
         return response;
     }
 
-    @GetMapping("/list/")
-    public ResponseEntity<?> findAsList() throws Exception {
+    @GetMapping("/search/page/")
+    public ResponseEntity<?> findAllByCtgTipoAgenciaAsPage(@RequestParam(name="page", defaultValue = "0") Integer page, @RequestParam(name="property", defaultValue = "ctgCatNombre") String property, @RequestParam(name="itemsPerPage", defaultValue = "10") Integer itemsPerPage, @RequestParam(name = "idPadre", defaultValue = "0") Long idPadre) throws Exception {
         ResponseEntity<?> response;
-        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findAllAsList(),
+        response = generateSingleResponseWithCode(SUCCESS, serviceWeb.findAllByCtgTipoAgenciaAsPage(idPadre, page, property, itemsPerPage),
                 HttpStatus.OK, "00000");
         return response;
     }
 
     @InitBinder("create")
     public void InitBinderCreate(WebDataBinder binder) {
-        binder.setDisallowedFields("ctgTipoAgenciaId", "ctgTipoAgenciaActivo", "ctgTipoAgenciaDescripcion");
+        binder.setDisallowedFields("ctgSubTipoAgenciaId", "ctgSubTipoAgenciaActivo", "ctgSubTipoAgenciaDescripcion", "ctgTipoAgencia");
     }
 
     @InitBinder("update")
     public void InitBinderUpdate(WebDataBinder binder) {
-        binder.setDisallowedFields("ctgTipoAgenciaId", "ctgTipoAgenciaActivo", "ctgTipoAgenciaDescripcion");
+        binder.setDisallowedFields("ctgSubTipoAgenciaId", "ctgSubTipoAgenciaActivo", "ctgSubTipoAgenciaDescripcion", "ctgTipoAgencia");
     }
-
 }

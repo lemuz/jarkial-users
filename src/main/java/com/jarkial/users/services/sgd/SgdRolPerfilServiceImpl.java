@@ -62,5 +62,10 @@ public class SgdRolPerfilServiceImpl extends AbstractBaseServiceImpl implements 
         return repository.findAllBySgdPerfil_CtgCatalogoId(idPadre, pageable);
 
     }
+
+    @Override
+    public List<SgdRolPerfil> findAllBySgdPerfilAsList(Long idPadre) throws Exception{
+        return repository.findAllBySgdPerfil_CtgCatalogoId(idPadre);
+    }
     
 }

@@ -8,5 +8,5 @@ import com.jarkial.users.services.AbstractCrudService;
 
 public interface GstDocumentoCargadoService extends AbstractCrudService<GstDocumentoCargado, Long>{
     
-    Page<GstDocumentoCargado> findAllBySgdUsuarioAsPage(Long idPadre, Pageable pageable) throws Exception 
+    Page<GstDocumentoCargado> findAllBySgdUsuarioAsPage(Long idPadre, Pageable pageable) throws Exception;
 }

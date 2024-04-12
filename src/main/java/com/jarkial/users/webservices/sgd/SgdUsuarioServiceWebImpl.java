@@ -96,11 +96,26 @@ public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements
     }
 
     @Override
-    public List<SgdUsuarioModel> findAllAsList() throws MyServiceException {
+    public Page<SgdUsuarioModel> findAllAsPage(int page, String orderByProperty, int itemsPerPage) throws MyServiceException {
+        long start = MyUtils.iniciaMetodo();
+        Page<SgdUsuario> pageEntity = Page.empty();
+        Page<SgdUsuarioModel> pageModel = Page.empty();
+        try {
+            pageEntity = service.findAllAsPage(constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
+            pageModel = MyUtils.fullSgdUsuarioModelPage(pageEntity);
+        } catch (Exception e) {
+            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
+        }
+        MyUtils.finMetodo(start);
+        return pageModel;
+    }
+
+    @Override
+    public List<SgdUsuarioModel> findAllBySgdUsuarioAsList(Long idPadre) throws MyServiceException {
         long start = MyUtils.iniciaMetodo();
         List<SgdUsuario> findAll = new ArrayList<>();
         try {
-            findAll = service.findAllAsList();
+            findAll = service.findBySgdUsuarioPadreAsList(idPadre);
         } catch (Exception e) {
             MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
         }
@@ -112,20 +127,5 @@ public class SgdUsuarioServiceWebImpl extends AbstractBaseServiceImpl implements
         });
         MyUtils.finMetodo(start);
         return lista;
-    }
-
-    @Override
-    public Page<SgdUsuarioModel> findAllBySgdUsuarioAsPage(Long idPadre, int page, String orderByProperty, int itemsPerPage) throws MyServiceException {
-        long start = MyUtils.iniciaMetodo();
-        Page<SgdUsuario> pageEntity = Page.empty();
-        Page<SgdUsuarioModel> pageModel = Page.empty();
-        try {
-            pageEntity = service.findBySgdUsuarioPadreAsPage(idPadre, constructPageSpecificationDesc(page, orderByProperty, itemsPerPage));
-            pageModel = MyUtils.fullSgdUsuarioModelPage(pageEntity);
-        } catch (Exception e) {
-            MyUtils.errorMetodo(start, MyUtilsConstant.CODE_ERROR_READ, e);
-        }
-        MyUtils.finMetodo(start);
-        return pageModel;
     }
 }

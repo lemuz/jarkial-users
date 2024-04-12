@@ -4,10 +4,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-
-import com.jarkial.users.model.entity.ctg.CtgAgencia;
-
 @Data
 public class SgdUsuarioModel {
 

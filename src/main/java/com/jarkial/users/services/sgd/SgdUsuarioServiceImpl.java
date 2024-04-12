@@ -65,8 +65,8 @@ public class SgdUsuarioServiceImpl extends AbstractBaseServiceImpl implements Sg
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Page<SgdUsuario> findBySgdUsuarioPadreAsPage(Long idPadre, Pageable pageable) throws Exception {
-        return repository.findBySgdUsuarioPadre_SgdUsuarioId(idPadre, pageable);
+    public List<SgdUsuario> findBySgdUsuarioPadreAsList(Long idPadre) throws Exception {
+        return repository.findBySgdUsuarioPadre_SgdUsuarioId(idPadre);
     }
 
 }
